@@ -14,7 +14,5 @@ namespace Reminder.Contracts
         public void Remove<T>(T item);
 
         public void RemoveAll();
-
-        public void CalculateTiming(object obj = null);
     }
 }

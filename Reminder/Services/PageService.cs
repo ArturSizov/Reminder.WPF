@@ -1,9 +1,7 @@
 ﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Reminder.Contracts;
-using Reminder.Models;
 using Reminder.Views.Pages;
 using System;
-using System.Collections.ObjectModel;
 using System.Windows.Controls;
 
 namespace Reminder.Services
@@ -52,6 +50,6 @@ namespace Reminder.Services
         {
             OnPageChanget?.Invoke(new BlankReportPage());
             IsActive = false;
-        }
+        }   
     }
 }

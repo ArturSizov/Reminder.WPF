@@ -65,7 +65,7 @@ namespace Reminder.Services
             {
                 if (IsActive && _navidator.IsActive)
                 {
-                    if (item.Days == 0)
+                    if (item.RemainingDays == 0)
                     {
                         SoundPlayer.Stream = Properties.Resources.Sound;
                         SoundPlayer.Play();
@@ -105,10 +105,10 @@ namespace Reminder.Services
                 Title = Dict.Translate(Dict.Parameter.Title_edit),
                 Person = new Person
                 {
-                    Arg = person.Arg,
+                    Age = person.Age,
                     MiddleName = person.MiddleName,
                     Birthday = person.Birthday,
-                    Days = person.Days,
+                    RemainingDays = person.RemainingDays,
                     LastName = person.LastName,
                     Name = person.Name,
                     Position = person.Position,

@@ -15,11 +15,8 @@ namespace Reminder.ViewModels
         public string? Name;
         public string? LastName;
         public string? MiddleName;
-        private bool _сongratulationsStatus;
 
         public string? Text { get; set; }
-
-        public bool СongratulationsStatus { get => _сongratulationsStatus; set => SetProperty(ref _сongratulationsStatus, value); }
 
         public string? QestionText => Dict.Translate(Dict.Parameter.Сongratulations_window_text_question);
 
@@ -47,7 +44,7 @@ namespace Reminder.ViewModels
 
             foreach (var a in age)
             {
-                if (person.Arg == a)
+                if (person.Age == a)
                 {
                     text = $"{Dict.Translate(Dict.Parameter.Happy_anniversary_text)}\n {person.Name} {person.MiddleName}!".Replace(" !", "!");
                     break;
@@ -63,7 +60,6 @@ namespace Reminder.ViewModels
         {
             var r = new Report { Name = Name, LastName = LastName, MiddleName = MiddleName, Status = "Yes" };
             _repository.Reports.Add(r);
-            СongratulationsStatus = true;
             _repository.Save(r);
             if (win != null) win.Close();
 
@@ -73,7 +69,6 @@ namespace Reminder.ViewModels
         {
             var r = new Report { Name = Name, LastName = LastName, MiddleName = MiddleName, Status = "No" };
             _repository.Reports.Add(r);
-            СongratulationsStatus = false;
             _repository.Save(r);
             if (win != null) win.Close();
         });

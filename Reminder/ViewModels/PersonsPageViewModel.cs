@@ -8,7 +8,8 @@ using System.Windows.Input;
 using IDialogService = Reminder.Contracts.IDialogService;
 using System.Threading;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
-using System.Drawing;
+using System.Collections.Specialized;
+using System;
 
 namespace Reminder.ViewModels
 {
@@ -19,12 +20,7 @@ namespace Reminder.ViewModels
         private IPageService _navigation;
         private Person? _selectedItem;
         private ObservableCollection<Person>? _persons;
-        private FontWeight _fontWeigh = FontWeights.Bold;
-        private Brush _brush = Brushes.Red;
-
-        public FontWeight FontWeigh { get => _fontWeigh; set => SetProperty(ref _fontWeigh, value); }
-
-        public Brush Brush { get => _brush; set => SetProperty(ref _brush, value); }
+       
         /// <summary>
         /// Selected item for context menu
         /// </summary>
@@ -42,10 +38,12 @@ namespace Reminder.ViewModels
 
             Persons = _repository.Persons;
 
-            Timer timer = new Timer(new TimerCallback(_repository.CalculateTiming));
-            timer.Change(0, 5000);
-        }
+            Timer timer = new Timer(new TimerCallback(CalculateTimingTiming));
+            timer.Change(0, 18000000);
+            //TODO : 18000000
 
+            Persons.CollectionChanged += CalculateTiming;
+        }
 
         #region Header
         public string ToolTipText => Dict.Translate(Dict.Parameter.Tool_tip_text);
@@ -58,7 +56,7 @@ namespace Reminder.ViewModels
         public string PositionHeader => Dict.Translate(Dict.Parameter.Position_person);
         public string BirthdayHeader => Dict.Translate(Dict.Parameter.Birthday_person);
         public string DaysHeader => Dict.Translate(Dict.Parameter.Days_person);
-        public string ArgHeader => Dict.Translate(Dict.Parameter.Arg_person);
+        public string AgeHeader => Dict.Translate(Dict.Parameter.Arg_person);
 
 
         #endregion
@@ -101,6 +99,36 @@ namespace Reminder.ViewModels
             }
             _dialogService.ShowDialogEditWindow(SelectedItem);
         });
+        #endregion
+
+        #region Methods
+        /// <summary>
+        /// Calculate the timing
+        /// </summary>
+        private void CalculateTiming(object? sender, NotifyCollectionChangedEventArgs e)
+        {
+            var current = DateTime.Today;
+
+            foreach (var item in Persons)
+            {
+                int year = current.Month > item.Birthday.Month || current.Month == item.Birthday.Month && current.Day > item.Birthday.Day
+                  ? current.Year + 1 : current.Year;
+                item.RemainingDays = (int)(new DateTime(year, item.Birthday.Month, item.Birthday.Day) - current).TotalDays;
+
+                item.Age = current.Year - item.Birthday.Year; // Human growth rate calculation
+                if (item.Birthday.Date > current.AddYears(-item.Age)) item.Age--;
+            }
+        }
+
+        /// <summary>
+        /// Timer method
+        /// </summary>
+        /// <param name="obj"></param>
+        private void CalculateTimingTiming(object obj)
+        {
+            CalculateTiming(null, null);
+        }
+
         #endregion
     }
 }

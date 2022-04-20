@@ -14,11 +14,12 @@
     mc:Ignorable="d">
 
     <Page.Resources>
-        <converter:RowToBrushConverter x:Key="RowToBrushConverter"/>
+        <converter:RowToBrushConverter x:Key="BrushConverter"/>
         <converter:FontWeightConverter x:Key="FontWeightConverter"/>
-        <converter:RowToBrushConverterAge x:Key="RowToBrushConverterAge"/>
-        <converter:FontWeightConverterAge x:Key="FontWeightConverterAge"/>
+        <converter:RowToBrushMultiConverterAge x:Key="BrushMultiConverterAge"/>
+        <converter:FontWeightMultiConverterAge x:Key="FontWeightMultiConverterAge"/>
     </Page.Resources>
+
 
     <Grid>
 
@@ -40,7 +41,6 @@
             SelectionMode="Single"
             SelectionUnit="FullRow"
             ToolTip="{Binding ToolTipText}">
-
             <DataGrid.ContextMenu>
                 <ContextMenu FontSize="14">
                     <MenuItem
@@ -75,25 +75,38 @@
                     Width="*"
                     Binding="{Binding Birthday, StringFormat=\{0:d\} г, ConverterCulture=ru, UpdateSourceTrigger=PropertyChanged}"
                     Header="{Binding Source={StaticResource Locator}, Path=PersonsPageViewModel.BirthdayHeader}"/>
-                <DataGridTextColumn Binding="{Binding Arg, UpdateSourceTrigger=PropertyChanged}" 
-                                    Header="{Binding Source={StaticResource Locator}, Path=PersonsPageViewModel.ArgHeader}">
+                <DataGridTextColumn Header="{Binding Source={StaticResource Locator}, Path=PersonsPageViewModel.AgeHeader}"
+                                    Binding="{Binding Age, UpdateSourceTrigger=PropertyChanged}">
                     <DataGridTextColumn.ElementStyle>
-                        <Style TargetType="{x:Type TextBlock}">
-                            <Setter Property="Foreground" Value="{Binding Converter={StaticResource RowToBrushConverterAge}}"/>
-                            <Setter Property="FontWeight" Value="{Binding Converter={StaticResource FontWeightConverterAge}}"/>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="FontWeight">
+                                <Setter.Value>
+                                    <MultiBinding Converter="{StaticResource FontWeightMultiConverterAge}">
+                                        <Binding Path="Age"/>
+                                        <Binding Path="RemainingDays"/>
+                                    </MultiBinding>
+                                </Setter.Value>
+                            </Setter>
+                            <Setter Property="Foreground">
+                                <Setter.Value>
+                                    <MultiBinding Converter="{StaticResource BrushMultiConverterAge}">
+                                        <Binding Path="Age"/>
+                                        <Binding Path="RemainingDays"/>
+                                    </MultiBinding>
+                                </Setter.Value>
+                            </Setter>
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
 
-                <DataGridTextColumn Binding="{Binding Days, UpdateSourceTrigger=PropertyChanged}" 
-                                    Header="{Binding Source={StaticResource Locator}, Path=PersonsPageViewModel.DaysHeader}">
+                <DataGridTextColumn Header="{Binding Source={StaticResource Locator}, Path=PersonsPageViewModel.DaysHeader}"
+                                    Binding="{Binding RemainingDays, UpdateSourceTrigger=PropertyChanged}">
                     <DataGridTextColumn.ElementStyle>
-                        <Style TargetType="{x:Type TextBlock}">
-                            <Setter Property="Foreground" Value="{Binding Converter={StaticResource RowToBrushConverter}}"/>
-                            <Setter Property="FontWeight" Value="{Binding Converter={StaticResource FontWeightConverter}}"/>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Foreground" Value="{Binding RemainingDays, Converter={StaticResource BrushConverter}}"/>
+                            <Setter Property="FontWeight" Value="{Binding RemainingDays, Converter={StaticResource FontWeightConverter}}"/>
                         </Style>
                     </DataGridTextColumn.ElementStyle>
-                    
                 </DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>

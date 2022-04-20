@@ -11,8 +11,8 @@ namespace Reminder.Models
         private string? _lastName;
         private string? _position;
         private DateTime _birthday = new DateTime(2000, 1, 10);
-        private int _arg;
-        private double _days;
+        private int _age;
+        private int _remainingDays;
 
         public Guid Id { get => _id; set => SetProperty(ref _id, value); }
         public string? Name { get => _name; set => SetProperty(ref _name, value); }
@@ -20,7 +20,7 @@ namespace Reminder.Models
         public string? LastName { get => _lastName; set => SetProperty(ref _lastName, value); }
         public string? Position { get => _position; set => SetProperty(ref _position, value); }
         public DateTime Birthday { get => _birthday; set => SetProperty(ref _birthday, value); }
-        public int Arg { get => _arg; set => SetProperty(ref _arg, value); }
-        public double Days { get => _days; set => SetProperty(ref _days, value); }
+        public int Age { get => _age; set => SetProperty(ref _age, value); }
+        public int RemainingDays { get => _remainingDays; set => SetProperty(ref _remainingDays, value); }
     }
 }

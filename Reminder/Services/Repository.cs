@@ -62,24 +62,5 @@ namespace Reminder.Services
             }
             _provider.SaveChanges();
         }
-
-        /// <summary>
-        /// Calculate the timing
-        /// </summary>
-        /// <param name="person"></param>
-        public void CalculateTiming(object obj)
-        {
-            foreach (var person in Persons)
-            {
-                var current = DateTime.Today;
-
-                int year = current.Month > person.Birthday.Month || current.Month == person.Birthday.Month && current.Day > person.Birthday.Day
-                             ? current.Year + 1 : current.Year;
-                person.Days = (new DateTime(year, person.Birthday.Month, person.Birthday.Day) - current).TotalDays;
-
-                person.Arg = current.Year - person.Birthday.Year; // Human growth rate calculation
-                if (person.Birthday.Date > current.AddYears(-person.Arg)) person.Arg--;
-            }
-        }
     }
 }

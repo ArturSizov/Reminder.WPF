@@ -86,7 +86,8 @@ namespace Reminder.Resources
             SelectDB,
             DB,
             Default_DB,
-            Error_load_DB
+            Error_load_DB,
+            CheckBox_content
         };
         static Dict()
         {
@@ -131,13 +132,14 @@ namespace Reminder.Resources
         /// Write to language settings file
         /// </summary>
         /// <param name="language"></param>
-        public static void WriteSettings(string language, string refDBFile)
+        public static void WriteSettings(string language, string refDBFile, bool isCheked)
         {
             var path = "Settings.txt";
             using (StreamWriter writer = new StreamWriter(Path.GetFullPath(path)))
             {
                 writer.WriteLine(language);
                 writer.WriteLine(refDBFile);
+                writer.WriteLine(isCheked);
             }
         }
 
@@ -159,7 +161,7 @@ namespace Reminder.Resources
         /// </summary>
         /// <param name="lineNumber"></param>
         /// <returns></returns>
-        private static string ReadSetting(int lineNumber)
+        public static string ReadSetting(int lineNumber)
         {
             var path = "Settings.txt";
 
@@ -200,7 +202,7 @@ namespace Reminder.Resources
             [Parameter.Setting_language_heder] = "Язык:",
             [Parameter.Content_dutton_save] = "Сохранить",
             [Parameter.Content_dutton_cancel] = "Отмена",
-            [Parameter.Message_setting_window] = "Для вступления изменений настроек, перезапустите приложение.\nЗакрыть?",
+            [Parameter.Message_setting_window] = "Для вступления изменений, необходимо перезапустить приложение.\nПерезапустить?",
             [Parameter.DB_heder] = "БД:",
             [Parameter.Сongratulations_window_text_question] = "Поздравили?",
             [Parameter.Button_yes] = "Да",
@@ -245,7 +247,8 @@ namespace Reminder.Resources
             [Parameter.SelectDB] = "Выбрать",
             [Parameter.DB] = "База данных",
             [Parameter.Default_DB] = "База данных по умолчанию",
-            [Parameter.Error_load_DB] = "База данных повреждена, для работы приложения создана по умолчанию.\nДля указания корректной базы данных, переидите в настройки."
+            [Parameter.Error_load_DB] = "База данных повреждена, для работы приложения создана по умолчанию.\nДля указания корректной базы данных, переидите в настройки.",
+            [Parameter.CheckBox_content] = "Автозагрузка программы"
         };
 
         private static Dictionary<Parameter, string> english = new Dictionary<Parameter, string>
@@ -267,7 +270,7 @@ namespace Reminder.Resources
             [Parameter.Setting_language_heder] = "Language:",
             [Parameter.Content_dutton_save] = "Save",
             [Parameter.Content_dutton_cancel] = "Cancel",
-            [Parameter.Message_setting_window] = "To make changes to settings take effect, restart the application.\nClose?",
+            [Parameter.Message_setting_window] = "For the changes to take effect, you must restart the application.\nRestart?",
             [Parameter.DB_heder] = "DB:",
             [Parameter.Сongratulations_window_text_question] = "Сongratulated?",
             [Parameter.Button_yes] = "Yes",
@@ -312,7 +315,8 @@ namespace Reminder.Resources
             [Parameter.SelectDB] = "Select",
             [Parameter.DB] = "Data base",
             [Parameter.Default_DB] = "Default database",
-            [Parameter.Error_load_DB] = "The database is corrupted, it was created by default for the application to work.\nTo specify the correct database, go to the settings."
+            [Parameter.Error_load_DB] = "The database is corrupted, it was created by default for the application to work.\nTo specify the correct database, go to the settings.",
+            [Parameter.CheckBox_content] = "Autorun application"
         };
         #endregion
     }

@@ -3,10 +3,16 @@ using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Win32;
 using Reminder.Resources;
 using Reminder.Views.Windows;
+using System;
 using System.Collections.ObjectModel;
+using System.IO;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Input;
 using IDialogService = Reminder.Contracts.IDialogService;
+using IWshRuntimeLibrary;
+using File = System.IO.File;
+
 namespace Reminder.ViewModels
 {
     public class SettingsWindowViewModel : ObservableRecipient
@@ -15,8 +21,11 @@ namespace Reminder.ViewModels
         private int _selectedIndex;
         private string _language;
         private string _refDBFile;
+        private bool _isCheked = Convert.ToBoolean(Dict.ReadSetting(3));
 
         public string Title => Dict.Translate(Dict.Parameter.Title_setting_window);
+        public bool IsCheked { get => _isCheked; set => SetProperty(ref _isCheked, value); }
+
 
         /// <summary>
         /// Index languages
@@ -42,8 +51,8 @@ namespace Reminder.ViewModels
         public string? SaveHeader => Dict.Translate(Dict.Parameter.Content_dutton_save);
         public string? CancelHeader => Dict.Translate(Dict.Parameter.Content_dutton_cancel);
         public string DBHeader => Dict.Translate(Dict.Parameter.DB_heder);
-
         public string SelectHeader => Dict.Translate(Dict.Parameter.SelectDB);
+        public string CheckBoxContent => Dict.Translate(Dict.Parameter.CheckBox_content);
 
         #endregion
         public SettingsWindowViewModel(IDialogService dialogService)
@@ -90,9 +99,13 @@ namespace Reminder.ViewModels
             {
                 _dialogService.IsActiveNotify = false;
 
-                Dict.WriteSettings(Language, _refDBfile);
+                Dict.WriteSettings(Language, _refDBfile, _isCheked);
+
+                SetAutoRunValue();
 
                 Application.Current.Shutdown();
+
+                System.Windows.Forms.Application.Restart();
             }
             else return;
         });
@@ -103,6 +116,35 @@ namespace Reminder.ViewModels
         {
             if (win != null) win.Close();
         });
+
+        #region Methods
+        /// <summary>
+        /// Adding an application to startup
+        /// </summary>
+        /// <param name="autorun"></param>
+        private void SetAutoRunValue()
+        {
+            const string name = "Reminder";
+            string path = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
+            string exPath = path + $"\\{name}.exe";
+
+            IWshShell wsh = new WshShell();
+            IWshShortcut shortcut = wsh.CreateShortcut(Environment.GetFolderPath(Environment.SpecialFolder.Startup) + $"\\{name}.lnk");
+            shortcut.TargetPath = exPath;
+            shortcut.WorkingDirectory = path;
+
+            var lnkRef = shortcut.FullName;
+
+            if (IsCheked)
+            {
+                shortcut.Save();
+            }
+            else
+            {
+                File.Delete(lnkRef);
+            }
+        }
+        #endregion
         #endregion
     }
 }

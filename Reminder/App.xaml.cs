@@ -36,8 +36,7 @@ namespace Reminder
                 GC.KeepAlive(this.Mutex);
                 base.OnStartup(e);
                 ConfigureIOC();
-            }
-           
+            }     
         }
 
         private void ConfigureIOC()

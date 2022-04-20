@@ -10,21 +10,18 @@ namespace Reminder.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is Person { Days: < 10 })
-            {
-                return FontWeights.Bold;
-            }
-            else if (value is Person { Days: < 50 })
-            {
-                return FontWeights.Bold;
-            }
+            var date = (int)value;
 
-            return FontWeights.Normal;
+            var font = date <= 50 ? FontWeights.Bold:
+                        FontWeights.Normal;
+
+            return font;
         }
+
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            throw new NotImplementedException();
+            return null;
         }
     }
 }

@@ -69,7 +69,6 @@ namespace Reminder.ViewModels
                 else
                 {
                     _repository.Persons.Add(Person);
-                    _repository.CalculateTiming();
                     _repository.Save(Person);
                     if (!_navigation.IsActive) _navigation.GoToPersonPage();
                     if (win != null) win.Close();
@@ -104,6 +103,7 @@ namespace Reminder.ViewModels
             if (e == null) return;
             else buttonStatus = e.Cancel;
         });
+
         #endregion
     }
 }

@@ -44,7 +44,7 @@ namespace Reminder.ViewModels
             else _navigation.GoToPersonPage();
 
             Timer timer = new Timer(new TimerCallback(dialogService.ShowСongratulationsWindow));
-            timer.Change(5000, 15000);
+            timer.Change(5000, 43200000);
         }
 
         #region Header
@@ -118,12 +118,10 @@ namespace Reminder.ViewModels
         private bool _showInTaskbar;
         private WindowState _windowState;
 
-        public event PropertyChangedEventHandler? PropertyChanged;
-
         #region Toolkit commands
         public ICommand LoadedCommand => new DelegateCommand(() =>
         {
-            WindowState = WindowState.Normal;
+            WindowState = WindowState.Minimized;
             Notify("", Dict.Translate(Dict.Parameter.Window_state_started_work));
         });
         public ICommand ClosingCommand => new DelegateCommand<CancelEventArgs>((e) =>
@@ -218,6 +216,7 @@ namespace Reminder.ViewModels
             }
         }
         #endregion
-        #endregion
+
+       #endregion
     }
 }
