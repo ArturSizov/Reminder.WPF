@@ -144,6 +144,10 @@ namespace Reminder.ViewModels
                 File.Delete(lnkRef);
             }
         }
+        public void M()
+        {
+            MessageBox.Show("");
+        }
         #endregion
         #endregion
     }
