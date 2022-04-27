@@ -79,6 +79,7 @@
                                     Binding="{Binding Age, UpdateSourceTrigger=PropertyChanged}">
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="TextBlock">
+                            <Setter Property="TextBlock.TextAlignment" Value="Center"/>
                             <Setter Property="FontWeight">
                                 <Setter.Value>
                                     <MultiBinding Converter="{StaticResource FontWeightMultiConverterAge}">
@@ -103,6 +104,7 @@
                                     Binding="{Binding RemainingDays, UpdateSourceTrigger=PropertyChanged}">
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="TextBlock">
+                            <Setter Property="TextBlock.TextAlignment" Value="Center"/>
                             <Setter Property="Foreground" Value="{Binding RemainingDays, Converter={StaticResource BrushConverter}}"/>
                             <Setter Property="FontWeight" Value="{Binding RemainingDays, Converter={StaticResource FontWeightConverter}}"/>
                         </Style>
