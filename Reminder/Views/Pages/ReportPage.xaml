@@ -23,8 +23,7 @@
             <RowDefinition Height="50" />
         </Grid.RowDefinitions>
 
-        <DataGrid
-  
+        <DataGrid 
             Grid.Row="0"
             Margin="2"
             AlternatingRowBackground="AliceBlue"
@@ -63,6 +62,7 @@
                     Header="{Binding Source={StaticResource Locator}, Path=ReportPageViewModel.StatusHeader}">
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="{x:Type TextBlock}">
+                            <Setter Property="TextBlock.TextAlignment" Value="Center"/>
                             <Setter Property="Foreground" Value="{Binding Converter={StaticResource RowToBrushConverterStatus}}" />
                         </Style>
                     </DataGridTextColumn.ElementStyle>

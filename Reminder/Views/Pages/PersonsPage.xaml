@@ -58,7 +58,7 @@
                 <DataGridTextColumn
                     Width="*"
                     Binding="{Binding Name}"
-                    Header="{Binding Source={StaticResource Locator}, Path=PersonsPageViewModel.NameHeader}" />
+                    Header="{Binding Source={StaticResource Locator}, Path=PersonsPageViewModel.NameHeader}"/>
                 <DataGridTextColumn
                     Width="*"
                     Binding="{Binding LastName}"
